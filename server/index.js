@@ -12,7 +12,7 @@ app.use(express.static('build'));
 
 app.get('/ping', (req, res) => res.send('pong'));
 app.get('/', (req, res) => {
-  res.sendFile(join('build', 'index.html'), { root: '../' });
+  res.sendFile(join('build', 'index.html'));
 });
 
 app.listen(port, () => {
