@@ -2,13 +2,13 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const path = require('path');
-const topstories = require('./routes/topstories');
+const stories = require('./routes/stories');
 
 const port = process.env.PORT || 8080;
 const app = express();
 
 app.use(bodyParser.json(), cors(), express.static('build'));
-app.use('/topstories', topstories);
+app.use('/stories', stories);
 
 app.get('/ping', (_req, res) => res.send('pong'));
 app.get('/', (_req, res) => {

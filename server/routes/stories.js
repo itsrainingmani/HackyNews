@@ -2,10 +2,10 @@ const express = require('express');
 const axios = require('axios');
 const router = express.Router();
 
-const getAllTopStories = async () => {
+const getAllStories = async type => {
   try {
     let response = await axios.get(
-      'https://hacker-news.firebaseio.com/v0/topstories.json'
+      `https://hacker-news.firebaseio.com/v0/${type}stories.json`
     );
     return response.data;
   } catch (error) {
@@ -14,10 +14,10 @@ const getAllTopStories = async () => {
   }
 };
 
-const getSelectTopStories = async pageNum => {
+const getSelectStories = async (type, pageNum) => {
   try {
     let selectTopStories = [];
-    let allTopStories = await getAllTopStories();
+    let allTopStories = await getAllStories(type);
     let topStoryTranch = allTopStories.slice(pageNum * 10 - 10, pageNum * 10);
     let promises = [];
     topStoryTranch.forEach(storyID => {
@@ -38,14 +38,14 @@ const getSelectTopStories = async pageNum => {
   }
 };
 
-router.get('/', (_req, res, next) =>
-  getAllTopStories()
+router.get('/:type', (req, res, next) =>
+  getAllStories(req.params.type)
     .then(data => res.send(data))
     .catch(err => next(err))
 );
 
-router.get('/:pagenum', (req, res, next) =>
-  getSelectTopStories(req.params.pagenum)
+router.get('/:type/:pagenum', (req, res, next) =>
+  getSelectStories(req.params.type, req.params.pagenum)
     .then(data => res.send(data))
     .catch(err => next(err))
 );
