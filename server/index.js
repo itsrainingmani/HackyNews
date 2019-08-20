@@ -4,7 +4,7 @@ const cors = require('cors');
 const path = require('path');
 const stories = require('./routes/stories');
 
-const port = process.env.PORT || 8080;
+const port = parseInt(process.env.PORT) || 8080;
 const app = express();
 
 app.use(bodyParser.json(), cors(), express.static('build'));
