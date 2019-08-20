@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import './App.css';
 
 function App() {
   const [ping, setPing] = useState(null);
@@ -18,8 +17,8 @@ function App() {
   });
 
   return (
-    <div className="App">
-      <header className="App-header">
+    <div>
+      <header>
         <p>{ping}</p>
         <p>
           Love you
