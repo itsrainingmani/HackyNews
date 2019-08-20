@@ -18,13 +18,13 @@ function StoryList(props) {
   );
 }
 
-export default function TopStories() {
+export default function Stories(props) {
   const [topStories, setTopStories] = useState([]);
   const [page, setPage] = useState(1);
 
   useEffect(() => {
     async function getTopStories() {
-      let response = await fetch(`/stories/top/${page}`);
+      let response = await fetch(`/stories/${props.type}/${page}`);
       let storylist = await response.json();
 
       console.log(storylist);
@@ -32,7 +32,7 @@ export default function TopStories() {
       else setTopStories(storylist);
     }
     getTopStories();
-  }, [page]);
+  }, [page, props.type]);
 
   return (
     <Container>
