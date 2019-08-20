@@ -3,6 +3,7 @@ const axios = require('axios');
 const router = express.Router();
 
 const storyTypes = ['top', 'best', 'new', 'ask', 'show', 'job'];
+const numOfStories = 20;
 
 const getAllStories = async type => {
   try {
@@ -22,7 +23,10 @@ const getSelectStories = async (type, pageNum) => {
     let allTopStories = await getAllStories(type);
 
     // gets the required slice. This might not work if there isn't any data left
-    let topStoryTranch = allTopStories.slice(pageNum * 10 - 10, pageNum * 10);
+    let topStoryTranch = allTopStories.slice(
+      pageNum * numOfStories - numOfStories,
+      pageNum * numOfStories
+    );
     let promises = [];
     topStoryTranch.forEach(storyID => {
       promises.push(
@@ -32,9 +36,7 @@ const getSelectStories = async (type, pageNum) => {
 
     let resolvedStories = await axios.all(promises);
     resolvedStories.forEach(story => {
-      let storyObj = {};
-      storyObj[story.data.id] = story.data;
-      selectTopStories.push(storyObj);
+      selectTopStories.push(story.data);
     });
     return selectTopStories;
   } catch (error) {
