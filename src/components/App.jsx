@@ -1,34 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import Menus from './Menus';
+import Stories from './Stories';
+import { Router } from '@reach/router';
 
-function App() {
-  const [ping, setPing] = useState(null);
-  const callExpressAPI = async () => {
-    let response = await fetch('/ping');
-    let body = await response.text();
-
-    if (!response.ok) throw Error('Something went wrong');
-    else return body;
-  };
-
-  useEffect(() => {
-    callExpressAPI()
-      .then(data => setPing(data))
-      .catch(data => setPing(data));
-  });
-
+export default function App() {
   return (
     <div>
-      <header>
-        <p>{ping}</p>
-        <p>
-          Love you
-          <span role="img" aria-label="sparkly heart">
-            💖
-          </span>
-        </p>
-      </header>
+      <Menus>
+        <Router>
+          <Stories type="top" path="/" />
+          <Stories type="best" path="/best" />
+          <Stories type="new" path="/new" />
+        </Router>
+      </Menus>
     </div>
   );
 }
-
-export default App;
