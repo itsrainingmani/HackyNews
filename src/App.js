@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import logo from './logo.svg';
 import './App.css';
 
 function App() {
@@ -21,10 +20,9 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
         <p>{ping}</p>
         <p>
-          Love you{' '}
+          Love you
           <span role="img" aria-label="sparkly heart">
             💖
           </span>
