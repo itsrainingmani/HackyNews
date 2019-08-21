@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from 'semantic-ui-react';
-import { Link } from '@reach/router';
+import { Link } from 'react-router-dom';
 import ErrorBoundary from './ErrorBoundary';
 import StoryList from './StoryDisplay';
 
