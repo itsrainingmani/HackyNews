@@ -16,7 +16,7 @@ export default class Menus extends Component {
 
     return (
       <React.Fragment>
-        <Menu pointing secondary>
+        <Menu>
           <Menu.Item
             name="top"
             active={activeItem === 'top'}
@@ -31,7 +31,7 @@ export default class Menus extends Component {
             onClick={this.handleItemClick}
             header
           >
-            <Link to="/best">Best</Link>
+            <Link to="best">Best</Link>
           </Menu.Item>
           <Menu.Item
             name="new"
@@ -39,7 +39,7 @@ export default class Menus extends Component {
             onClick={this.handleItemClick}
             header
           >
-            <Link to="/new">New</Link>
+            <Link to="new">New</Link>
           </Menu.Item>
         </Menu>
 
