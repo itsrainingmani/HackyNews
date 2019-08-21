@@ -1,5 +1,12 @@
 import React from 'react';
-import { Container, List, Button } from 'semantic-ui-react';
+import {
+  Container,
+  List,
+  Button,
+  Header,
+  Table,
+  Icon
+} from 'semantic-ui-react';
 import { Link } from '@reach/router';
 
 const convUnixTime = unixtime => {
@@ -9,21 +16,49 @@ const convUnixTime = unixtime => {
 
 function StoryList(props) {
   return (
-    <List relaxed verticalAlign="middle">
+    <List divided relaxed verticalAlign="middle" size="large">
       {props.storyList.map(story => (
         <List.Item key={story.id}>
           <List.Content>
-            <List.Header as="a">
-              <a href={story.url}>{story.title}</a>
-            </List.Header>
-            by {story.by} at {convUnixTime(story.time)} with {story.score}{' '}
-            points
+            <Header size="small" color="orange" floated="left">
+              <strong>
+                {story.score}
+                <Icon name="caret up"></Icon>
+              </strong>
+              <a href={story.url}>{story.title}</a>&nbsp; by{' '}
+              <strong>{story.by}</strong> at {convUnixTime(story.time)}
+            </Header>
           </List.Content>
         </List.Item>
       ))}
     </List>
   );
 }
+
+// function StoryTable(props) {
+//   return (
+//     <Table fixed singleLine>
+//       <Table.Body>
+//         {props.storyList.map(story => (
+//           <Table.Row key={story.id}>
+//             <Table.Cell width={1} textAlign="right">
+//               <strong>
+//                 {story.score}
+//                 <Icon name="caret up"></Icon>
+//               </strong>
+//             </Table.Cell>
+//             <Table.Cell>
+//               <a href={story.url}>{story.title}</a>
+//             </Table.Cell>
+//             <Table.Cell>
+//               by <strong>{story.by}</strong> at {convUnixTime(story.time)}
+//             </Table.Cell>
+//           </Table.Row>
+//         ))}
+//       </Table.Body>
+//     </Table>
+//   );
+// }
 
 export default class Stories extends React.Component {
   constructor(props) {
@@ -72,7 +107,7 @@ export default class Stories extends React.Component {
               More
             </Link>
           ) : (
-            <Link to={`${(parseInt(this.props.page) || 1) + 1}`}>More</Link>
+            <Link to={`/${(parseInt(this.props.page) || 1) + 1}`}>More</Link>
           )}
         </Button>
       </Container>
