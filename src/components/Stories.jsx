@@ -1,5 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Container, List, Button } from 'semantic-ui-react';
+import { Link } from '@reach/router';
+
+const convUnixTime = unixtime => {
+  let date = new Date(unixtime * 1000);
+  return date.toLocaleDateString('en-US');
+};
 
 function StoryList(props) {
   return (
@@ -10,7 +16,8 @@ function StoryList(props) {
             <List.Header as="a">
               <a href={story.url}>{story.title}</a>
             </List.Header>
-            by {story.by}
+            by {story.by} at {convUnixTime(story.time)} with {story.score}{' '}
+            points
           </List.Content>
         </List.Item>
       ))}
@@ -18,26 +25,57 @@ function StoryList(props) {
   );
 }
 
-export default function Stories(props) {
-  const [topStories, setTopStories] = useState([]);
-  const [page, setPage] = useState(1);
+export default class Stories extends React.Component {
+  constructor(props) {
+    super(props);
 
-  useEffect(() => {
-    async function getTopStories() {
-      let response = await fetch(`/stories/${props.type}/${page}`);
-      let storylist = await response.json();
+    this.state = {
+      topStories: []
+    };
+  }
 
-      console.log(storylist);
-      if (!response.ok) throw Error('Something went wrong');
-      else setTopStories(storylist);
+  async componentDidMount() {
+    let stories = await this.getTopStories();
+    this.setState({ topStories: stories });
+  }
+
+  async componentDidUpdate(prevProps) {
+    if (
+      this.props.type !== prevProps.type ||
+      this.props.page !== prevProps.page
+    ) {
+      let stories = await this.getTopStories();
+      this.setState({ topStories: stories });
     }
-    getTopStories();
-  }, [page, props.type]);
+  }
 
-  return (
-    <Container>
-      <StoryList storyList={topStories} />
-      <Button onClick={() => setPage(page + 1)}>More</Button>
-    </Container>
-  );
+  getTopStories = async () => {
+    let response = await fetch(
+      `/stories/${this.props.type}/${this.props.page || 1}`
+    );
+    let storylist = await response.json();
+
+    console.log(storylist);
+    if (!response.ok) throw Error('Something went wrong');
+    else return storylist;
+  };
+
+  render() {
+    return (
+      <Container>
+        <StoryList storyList={this.state.topStories} />
+        <Button>
+          {this.props.type !== 'top' ? (
+            <Link
+              to={`/${this.props.type}/${(parseInt(this.props.page) || 1) + 1}`}
+            >
+              More
+            </Link>
+          ) : (
+            <Link to={`${(parseInt(this.props.page) || 1) + 1}`}>More</Link>
+          )}
+        </Button>
+      </Container>
+    );
+  }
 }
