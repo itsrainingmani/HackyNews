@@ -32,24 +32,36 @@ const convUnixTime = unixtime => {
   }
 };
 
+// Tries to match a regex. If there are no matches, get hostname via URL constructor
+const extractHostname = storyURL => {
+  if (storyURL === null || storyURL === undefined) {
+    return '';
+  }
+  let matches = storyURL.match(/^https?:\/\/www.?([^/?#]+)(?:[/?#]|$)/i);
+  let domain = matches ? matches[1] : new URL(storyURL).hostname;
+  return `(${domain})`;
+};
+
 export default function StoryList(props) {
   return (
     <List
-      divided
       relaxed
-      verticalAlign="middle"
-      size="large"
       selection
       animated
+      divided
+      verticalAlign="middle"
+      size="large"
     >
       {props.storyList.map(story => (
         <List.Item key={story.id}>
           <List.Icon name="caret up" verticalAlign="middle" />
           <List.Content>
             <List.Header>
-              <a href={story.url} target="_blank" rel="noopener noreferrer">
+              <a target="_blank" rel="noopener noreferrer" href={story.url}>
                 {story.title}
               </a>
+              {/* <em>{` (${new URL(story.url).hostname}) `}</em> */}
+              <em>{` ${extractHostname(story.url)} `}</em>
             </List.Header>
             <Header size="tiny" color="orange" floated="left">
               <strong>{story.score}</strong>
