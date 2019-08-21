@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Menu, Container } from 'semantic-ui-react';
+import { Menu, Container, Dropdown } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import '../styles.css';
 
@@ -48,6 +48,19 @@ export default class Layout extends Component {
           >
             New
           </Menu.Item>
+          <Dropdown item simple text="More" className="link item">
+            <Dropdown.Menu>
+              <Dropdown.Item as={Link} to="/ask">
+                Ask HN
+              </Dropdown.Item>
+              <Dropdown.Item as={Link} to="/show">
+                Show HN
+              </Dropdown.Item>
+              <Dropdown.Item as={Link} to="/job">
+                Jobs
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
         </Menu>
         <Container>{this.props.children}</Container>
         <footer className="footer">
