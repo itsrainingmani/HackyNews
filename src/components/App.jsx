@@ -8,9 +8,12 @@ export default function App() {
     <div>
       <Menus>
         <Router>
-          <Stories type="top" path="/" />
-          <Stories type="best" path="/best" />
-          <Stories type="new" path="/new" />
+          <Stories type="top" default />
+          <Stories type="top" path="/:page" />
+          <Stories type="best" path="best" />
+          <Stories type="best" path="best/:page" />
+          <Stories type="new" path="new" />
+          <Stories type="new" path="new/:page" />
         </Router>
       </Menus>
     </div>
