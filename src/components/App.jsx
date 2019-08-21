@@ -35,6 +35,42 @@ export default class App extends React.Component {
           />
           <Route
             exact
+            path="/ask"
+            render={props => <Stories {...props} type="ask" page={1} />}
+          />
+          <Route
+            exact
+            path="/ask/:page"
+            render={props => (
+              <Stories {...props} type="ask" page={props.match.params.page} />
+            )}
+          />
+          <Route
+            exact
+            path="/show"
+            render={props => <Stories {...props} type="show" page={1} />}
+          />
+          <Route
+            exact
+            path="/show/:page"
+            render={props => (
+              <Stories {...props} type="show" page={props.match.params.page} />
+            )}
+          />
+          <Route
+            exact
+            path="/job"
+            render={props => <Stories {...props} type="job" page={1} />}
+          />
+          <Route
+            exact
+            path="/job/:page"
+            render={props => (
+              <Stories {...props} type="job" page={props.match.params.page} />
+            )}
+          />
+          <Route
+            exact
             path="/"
             render={props => <Stories {...props} type="top" page={1} />}
           />
