@@ -17,8 +17,13 @@ export default function StoryList(props) {
               <a href={story.url}>{story.title}</a>
             </List.Header>
             <Header size="tiny" color="orange" floated="left">
-              <strong>{story.score}</strong>&nbsp;points by&nbsp;
-              <strong>{story.by}</strong> at {convUnixTime(story.time)}
+              <strong>{story.score}</strong>
+              {' points by '}
+              <strong>
+                <em>{story.by}</em>
+              </strong>{' '}
+              at {convUnixTime(story.time)}
+              {' | ' + story.descendants + ' comments'}
             </Header>
           </List.Content>
         </List.Item>
