@@ -1,13 +1,7 @@
 import React from 'react';
-import {
-  Container,
-  List,
-  Button,
-  Header,
-  Table,
-  Icon
-} from 'semantic-ui-react';
+import { List, Button, Header, Table, Icon, Segment } from 'semantic-ui-react';
 import { Link } from '@reach/router';
+import ErrorBoundary from './ErrorBoundary';
 
 const convUnixTime = unixtime => {
   let date = new Date(unixtime * 1000);
@@ -16,16 +10,16 @@ const convUnixTime = unixtime => {
 
 function StoryList(props) {
   return (
-    <List divided relaxed verticalAlign="middle" size="large">
+    <List divided relaxed verticalAlign="middle" size="large" selection>
       {props.storyList.map(story => (
         <List.Item key={story.id}>
+          <Icon name="caret up"></Icon>
           <List.Content>
-            <Header size="small" color="orange" floated="left">
-              <strong>
-                {story.score}
-                <Icon name="caret up"></Icon>
-              </strong>
-              <a href={story.url}>{story.title}</a>&nbsp; by{' '}
+            <List.Header>
+              <a href={story.url}>{story.title}</a>
+            </List.Header>
+            <Header size="tiny" color="orange" floated="left">
+              <strong>{story.score}</strong>&nbsp;points by&nbsp;
               <strong>{story.by}</strong> at {convUnixTime(story.time)}
             </Header>
           </List.Content>
@@ -35,23 +29,52 @@ function StoryList(props) {
   );
 }
 
+// function StorySegment(props) {
+//   return (
+//     <Segment.Group raised>
+//       {props.storyList.map(story => (
+//         <Segment.Group horizontal compact key={story.id}>
+//           <Segment>
+//             <Header size="small" color="orange" textAlign="right">
+//               <strong>
+//                 {story.score}
+//                 <Icon name="caret up"></Icon>
+//               </strong>
+//             </Header>
+//           </Segment>
+//           <Segment>
+//             <a href={story.url}>{story.title}</a>
+//           </Segment>
+//           <Segment>
+//             &nbsp; by <strong>{story.by}</strong> at {convUnixTime(story.time)}
+//           </Segment>
+//         </Segment.Group>
+//       ))}
+//     </Segment.Group>
+//   );
+// }
+
 // function StoryTable(props) {
 //   return (
 //     <Table fixed singleLine>
 //       <Table.Body>
 //         {props.storyList.map(story => (
 //           <Table.Row key={story.id}>
-//             <Table.Cell width={1} textAlign="right">
-//               <strong>
-//                 {story.score}
-//                 <Icon name="caret up"></Icon>
-//               </strong>
-//             </Table.Cell>
-//             <Table.Cell>
-//               <a href={story.url}>{story.title}</a>
-//             </Table.Cell>
-//             <Table.Cell>
-//               by <strong>{story.by}</strong> at {convUnixTime(story.time)}
+//             <Table.Cell width={1}>
+//               <List horizontal>
+//                 <List.Item floated="left">
+//                   <Header size="small" color="orange" textAlign="right">
+//                     <strong>
+//                       {story.score}
+//                       <Icon name="caret up"></Icon>
+//                     </strong>
+//                   </Header>
+//                 </List.Item>
+//                 <List.Item>
+//                   <a href={story.url}>{story.title}</a>&nbsp; by{' '}
+//                   <strong>{story.by}</strong> at {convUnixTime(story.time)}
+//                 </List.Item>
+//               </List>
 //             </Table.Cell>
 //           </Table.Row>
 //         ))}
@@ -89,7 +112,7 @@ export default class Stories extends React.Component {
       `/stories/${this.props.type}/${this.props.page || 1}`
     );
     let storylist = await response.json();
-
+    storylist = storylist.filter(story => story !== null);
     console.log(storylist);
     if (!response.ok) throw Error('Something went wrong');
     else return storylist;
@@ -97,7 +120,7 @@ export default class Stories extends React.Component {
 
   render() {
     return (
-      <Container>
+      <ErrorBoundary>
         <StoryList storyList={this.state.topStories} />
         <Button>
           {this.props.type !== 'top' ? (
@@ -110,7 +133,7 @@ export default class Stories extends React.Component {
             <Link to={`/${(parseInt(this.props.page) || 1) + 1}`}>More</Link>
           )}
         </Button>
-      </Container>
+      </ErrorBoundary>
     );
   }
 }
