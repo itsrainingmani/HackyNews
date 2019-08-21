@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Menu, Container } from 'semantic-ui-react';
-import { Link } from '@reach/router';
+import { Link } from 'react-router-dom';
 import '../styles.css';
 
 export default class Layout extends Component {
@@ -30,7 +30,7 @@ export default class Layout extends Component {
           </Menu.Item>
           <Menu.Item
             as={Link}
-            to="best"
+            to="/best"
             name="best"
             active={activeItem === 'best'}
             onClick={this.handleItemClick}
@@ -40,7 +40,7 @@ export default class Layout extends Component {
           </Menu.Item>
           <Menu.Item
             as={Link}
-            to="new"
+            to="/new"
             name="new"
             active={activeItem === 'new'}
             onClick={this.handleItemClick}
