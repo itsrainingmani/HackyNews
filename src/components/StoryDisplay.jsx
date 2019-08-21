@@ -3,18 +3,53 @@ import { List, Header, Table, Icon, Segment } from 'semantic-ui-react';
 
 const convUnixTime = unixtime => {
   let date = new Date(unixtime * 1000);
-  return date.toLocaleDateString('en-US');
+  let timeInMs = Date.now();
+  let timeDiff = (timeInMs - date) / 1000;
+
+  if (timeDiff / 3600 < 1) {
+    return 'less than an hour ago';
+  } else if (timeDiff / 3600 > 0.9 && timeDiff / 3600 <= 1.1) {
+    return `an hour ago`;
+  } else if (timeDiff / 3600 >= 1.1 && timeDiff / 3600 < 24) {
+    return `${Math.floor(timeDiff / 3600)} hour${
+      Math.floor(timeDiff / 3600) === 1 ? '' : 's'
+    } ago`;
+  } else if (timeDiff / 86400 >= 0.99 && timeDiff / 86400 <= 1.01) {
+    return `1 day ago`;
+  } else if (timeDiff / 86400 > 1 && timeDiff / 86400 < 7) {
+    return `${Math.floor(timeDiff / 86400)} day${
+      Math.floor(timeDiff / 86400) === 1 ? '' : 's'
+    } ago`;
+  } else {
+    return (
+      ' on ' +
+      date.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric'
+      })
+    );
+  }
 };
 
 export default function StoryList(props) {
   return (
-    <List divided relaxed verticalAlign="middle" size="large" selection>
+    <List
+      divided
+      relaxed
+      verticalAlign="middle"
+      size="large"
+      selection
+      animated
+    >
       {props.storyList.map(story => (
         <List.Item key={story.id}>
-          <Icon name="caret up"></Icon>
+          <List.Icon name="caret up" verticalAlign="middle" />
           <List.Content>
             <List.Header>
-              <a href={story.url}>{story.title}</a>
+              <a href={story.url} target="_blank" rel="noopener noreferrer">
+                {story.title}
+              </a>
             </List.Header>
             <Header size="tiny" color="orange" floated="left">
               <strong>{story.score}</strong>
@@ -22,8 +57,8 @@ export default function StoryList(props) {
               <strong>
                 <em>{story.by}</em>
               </strong>{' '}
-              at {convUnixTime(story.time)}
-              {' | ' + story.descendants + ' comments'}
+              {convUnixTime(story.time)}
+              {' with ' + story.descendants + ' comments'}
             </Header>
           </List.Content>
         </List.Item>
