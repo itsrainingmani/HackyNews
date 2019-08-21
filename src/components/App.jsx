@@ -1,12 +1,14 @@
 import React from 'react';
-import Menus from './Menus';
+import Layout from './Layout';
 import Stories from './Stories';
 import { Router } from '@reach/router';
 
-export default function App() {
-  return (
-    <div>
-      <Menus>
+export default class App extends React.Component {
+  static displayName = App.name;
+
+  render() {
+    return (
+      <Layout>
         <Router>
           <Stories type="top" default />
           <Stories type="top" path="/:page" />
@@ -15,7 +17,7 @@ export default function App() {
           <Stories type="new" path="new" />
           <Stories type="new" path="new/:page" />
         </Router>
-      </Menus>
-    </div>
-  );
+      </Layout>
+    );
+  }
 }
