@@ -1,0 +1,18 @@
+.footer {
+	display: flex;
+	justify-content: center;
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	border-top: 1px solid #ddd;
+	height: 40px;
+	line-height: 40px;
+	background-color: white;
+}
+
+.layout {
+	padding-bottom: 50px;
+    position: relative;
+    min-height: 100vh;
+}
