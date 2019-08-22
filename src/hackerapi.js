@@ -53,3 +53,25 @@ export const getItem = async itemId => {
     throw Error(error);
   }
 };
+
+export const getAllItems = async itemId => {
+  try {
+    let itemList = [];
+    let story = await getItem(itemId);
+
+    let promises = [];
+    story.kids.forEach(storyID => {
+      promises.push(
+        axios.get(`https://hacker-news.firebaseio.com/v0/item/${storyID}.json`)
+      );
+    });
+
+    let resolvedStories = await axios.all(promises);
+    resolvedStories.forEach(story => {
+      itemList.push(story.data);
+    });
+    return itemList;
+  } catch (error) {
+    throw Error(error);
+  }
+};
