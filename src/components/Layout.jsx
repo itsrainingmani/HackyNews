@@ -1,12 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Menu, Container, Dropdown } from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import '../styles.css';
 
-export default function Layout(props) {
-  const [activeItem, setActiveItem] = useState('/');
+function Layout(props) {
+  const [activeItem, setActiveItem] = useState('');
 
   const handleItemClick = (_e, { name }) => setActiveItem(name);
+
+  useEffect(() => {
+    if (props.location.pathname.includes('new')) {
+      setActiveItem('new');
+    } else if (props.location.pathname.includes('best')) {
+      setActiveItem('best');
+    } else {
+      setActiveItem('/');
+    }
+  }, [props.location.pathname]);
 
   return (
     <div className="layout">
@@ -62,3 +72,5 @@ export default function Layout(props) {
     </div>
   );
 }
+
+export default withRouter(Layout);
