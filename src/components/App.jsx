@@ -2,6 +2,7 @@ import React from 'react';
 import Layout from './Layout';
 import Stories from './Stories';
 import { Route, Switch } from 'react-router-dom';
+import CommentSection from './Comments';
 
 export default function App() {
   return (
@@ -64,6 +65,13 @@ export default function App() {
           path="/job/:page"
           render={props => (
             <Stories {...props} type="job" page={props.match.params.page} />
+          )}
+        />
+        <Route
+          exact
+          path="/item/:itemId"
+          render={props => (
+            <CommentSection {...props} itemId={props.match.params.itemId} />
           )}
         />
         <Route
