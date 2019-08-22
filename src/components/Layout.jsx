@@ -6,7 +6,7 @@ import '../styles.css';
 export default function Layout(props) {
   const [activeItem, setActiveItem] = useState('/');
 
-  const handleItemClick = (e, { name }) => setActiveItem(name);
+  const handleItemClick = (_e, { name }) => setActiveItem(name);
 
   return (
     <div className="layout">
