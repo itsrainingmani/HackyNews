@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { convUnixTime, extractHostname } from './StoryUtils';
-import { List, Header, Container } from 'semantic-ui-react';
+import { List, Header } from 'semantic-ui-react';
 import * as HackerApi from '../hackerapi';
 import ErrorBoundary from './ErrorBoundary';
 import ReactHtmlParser from 'react-html-parser';
@@ -63,18 +63,16 @@ function CommentList(props) {
                 <List.Header>
                   {comment.deleted === 'true'
                     ? 'deleted'
-                    : comment.by + ' | ' + convUnixTime(comment.time)}
+                    : comment.by +
+                      ' | ' +
+                      convUnixTime(comment.time) +
+                      (comment.kids ? ' | expand' : '')}
                 </List.Header>
                 {ReactHtmlParser(comment.text)}
-                {comment.kids ? (
-                  <Container style={{ paddingLeft: '10px' }}>
-                    <CommentList comments={comment.kids} />
-                  </Container>
-                ) : null}
               </List.Content>
             </List.Item>
           ))
-        : null}
+        : "There's nothing here"}
     </List>
   );
 }
