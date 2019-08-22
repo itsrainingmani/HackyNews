@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { convUnixTime, extractHostname } from './StoryUtils';
-import { List, Header } from 'semantic-ui-react';
+import { List, Header, Container } from 'semantic-ui-react';
 import * as HackerApi from '../hackerapi';
 import ErrorBoundary from './ErrorBoundary';
 import ReactHtmlParser from 'react-html-parser';
@@ -66,6 +66,11 @@ function CommentList(props) {
                     : comment.by + ' | ' + convUnixTime(comment.time)}
                 </List.Header>
                 {ReactHtmlParser(comment.text)}
+                {comment.kids ? (
+                  <Container style={{ paddingLeft: '10px' }}>
+                    <CommentList comments={comment.kids} />
+                  </Container>
+                ) : null}
               </List.Content>
             </List.Item>
           ))
