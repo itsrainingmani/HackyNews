@@ -41,3 +41,15 @@ export const getSelectStories = async (type, pageNum) => {
     throw Error(error);
   }
 };
+
+export const getItem = async itemId => {
+  try {
+    let response = await axios.get(
+      `https://hacker-news.firebaseio.com/v0/item/${itemId}.json`
+    );
+    return response.data;
+  } catch (error) {
+    console.debug(error);
+    throw Error(error);
+  }
+};
