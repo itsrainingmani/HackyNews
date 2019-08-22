@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { convUnixTime, extractHostname } from './StoryUtils';
-import { List, Header, Segment } from 'semantic-ui-react';
+import { List, Header } from 'semantic-ui-react';
 import * as HackerApi from '../hackerapi';
 import ErrorBoundary from './ErrorBoundary';
+import ReactHtmlParser from 'react-html-parser';
 
 export default function CommentSection(props) {
   const [story, setStory] = useState({});
+  const [commentList, setCommentList] = useState([]);
 
   useEffect(() => {
     HackerApi.getItem(props.itemId)
@@ -13,11 +15,19 @@ export default function CommentSection(props) {
       .catch(err => {
         console.debug(err);
       });
+
+    HackerApi.getAllItems(props.itemId).then(data => {
+      console.log(data);
+      setCommentList(data);
+    });
   }, [props.itemId]);
 
   return (
     <ErrorBoundary>
-      <CommentHeader story={story} />
+      <React.Fragment>
+        <CommentHeader story={story} />
+        <CommentList comments={commentList} />
+      </React.Fragment>
     </ErrorBoundary>
   );
 }
@@ -39,5 +49,27 @@ function CommentHeader(props) {
         {' | ' + story.descendants + ' comments'}
       </Header.Subheader>
     </Header>
+  );
+}
+
+function CommentList(props) {
+  return (
+    <List relaxed selection divided verticalAlign="middle" size="large">
+      {props.comments.length > 0
+        ? props.comments.map(comment => (
+            <List.Item key={comment.id}>
+              <List.Icon name="caret up" verticalAlign="top" />
+              <List.Content>
+                <List.Header>
+                  {comment.deleted === 'true'
+                    ? 'deleted'
+                    : comment.by + ' | ' + convUnixTime(comment.time)}
+                </List.Header>
+                {ReactHtmlParser(comment.text)}
+              </List.Content>
+            </List.Item>
+          ))
+        : null}
+    </List>
   );
 }
