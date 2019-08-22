@@ -3,6 +3,7 @@ import { Button } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import ErrorBoundary from './ErrorBoundary';
 import StoryList from './StoryDisplay';
+import { getSelectStories } from '../hackerapi';
 
 export default class Stories extends React.Component {
   constructor(props) {
@@ -29,14 +30,14 @@ export default class Stories extends React.Component {
   }
 
   getTopStories = async () => {
-    let response = await fetch(
-      `/stories/${this.props.type}/${this.props.page || 1}`
-    );
-    let storylist = await response.json();
-    storylist = storylist.filter(story => story !== null);
-    console.log(storylist);
-    if (!response.ok) throw Error('Something went wrong');
-    else return storylist;
+    try {
+      let storylist = await getSelectStories(this.props.type, this.props.page);
+      storylist = storylist.filter(story => story !== null);
+      console.log(storylist);
+      return storylist;
+    } catch (err) {
+      return [];
+    }
   };
 
   render() {
