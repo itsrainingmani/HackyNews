@@ -1,7 +1,10 @@
 import React from 'react';
+import { Button } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 import { List, Header, Table, Icon, Segment } from 'semantic-ui-react';
+import { getSelectStories } from '../hackerapi';
 
-const convUnixTime = unixtime => {
+export const convUnixTime = unixtime => {
   let date = new Date(unixtime * 1000);
   let timeInMs = Date.now();
   let timeDiff = (timeInMs - date) / 1000;
@@ -33,7 +36,7 @@ const convUnixTime = unixtime => {
 };
 
 // Tries to match a regex. If there are no matches, get hostname via URL constructor
-const extractHostname = storyURL => {
+export const extractHostname = storyURL => {
   if (storyURL === null || storyURL === undefined) {
     return '';
   }
@@ -132,3 +135,27 @@ export function StoryTable(props) {
     </Table>
   );
 }
+
+export function StoryButton(props) {
+  const { type, page } = props;
+  return (
+    <Button>
+      {type !== 'top' ? (
+        <Link to={`/${props.type}/${(parseInt(page) || 1) + 1}`}>More</Link>
+      ) : (
+        <Link to={`/${(parseInt(page) || 1) + 1}`}>More</Link>
+      )}
+    </Button>
+  );
+}
+
+export const GetTopStories = async (type, page) => {
+  try {
+    let storylist = await getSelectStories(type, page);
+    storylist = storylist.filter(story => story !== null);
+    console.log(storylist);
+    return storylist;
+  } catch (err) {
+    return [];
+  }
+};
