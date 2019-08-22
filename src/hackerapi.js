@@ -1,8 +1,6 @@
-const express = require('express');
-const axios = require('axios');
-const router = express.Router();
+import axios from 'axios';
 
-const storyTypes = ['top', 'best', 'new', 'ask', 'show', 'job'];
+// const storyTypes = ['top', 'best', 'new', 'ask', 'show', 'job'];
 const numOfStories = 20;
 
 const getAllStories = async type => {
@@ -17,7 +15,7 @@ const getAllStories = async type => {
   }
 };
 
-const getSelectStories = async (type, pageNum) => {
+export const getSelectStories = async (type, pageNum) => {
   try {
     let selectTopStories = [];
     let allTopStories = await getAllStories(type);
@@ -43,24 +41,3 @@ const getSelectStories = async (type, pageNum) => {
     throw Error(error);
   }
 };
-
-// Router-level middleware that validates story type
-router.use('/:type', (req, res, next) => {
-  if (storyTypes.includes(req.params.type)) next();
-  else res.status(404).send('Invalid Story type');
-});
-
-// type can be top, best, new, ask, show, job
-router.get('/:type', (req, res, next) =>
-  getAllStories(req.params.type)
-    .then(data => res.send(data))
-    .catch(err => next(err))
-);
-
-router.get('/:type/:pagenum', (req, res, next) =>
-  getSelectStories(req.params.type, req.params.pagenum)
-    .then(data => res.send(data))
-    .catch(err => next(err))
-);
-
-module.exports = router;
