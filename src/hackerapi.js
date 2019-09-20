@@ -4,74 +4,74 @@ import axios from 'axios';
 const numOfStories = 20;
 
 const getAllStories = async type => {
-  try {
-    let response = await axios.get(
-      `https://hacker-news.firebaseio.com/v0/${type}stories.json`
-    );
-    return response.data;
-  } catch (error) {
-    console.debug(error);
-    throw Error(error);
-  }
+	try {
+		let response = await axios.get(
+			`https://hacker-news.firebaseio.com/v0/${type}stories.json`
+		);
+		return response.data;
+	} catch (error) {
+		console.debug(error);
+		throw Error(error);
+	}
 };
 
 export const getSelectStories = async (type, pageNum) => {
-  try {
-    let selectTopStories = [];
-    let allTopStories = await getAllStories(type);
+	try {
+		let selectTopStories = [];
+		let allTopStories = await getAllStories(type);
 
-    // gets the required slice. This might not work if there isn't any data left
-    let topStoryTranch = allTopStories.slice(
-      pageNum * numOfStories - numOfStories,
-      pageNum * numOfStories
-    );
-    let promises = [];
-    topStoryTranch.forEach(storyID => {
-      promises.push(
-        axios.get(`https://hacker-news.firebaseio.com/v0/item/${storyID}.json`)
-      );
-    });
+		// gets the required slice. This might not work if there isn't any data left
+		let topStoryTranch = allTopStories.slice(
+			pageNum * numOfStories - numOfStories,
+			pageNum * numOfStories
+		);
+		let promises = [];
+		topStoryTranch.forEach(storyID => {
+			promises.push(
+				axios.get(`https://hacker-news.firebaseio.com/v0/item/${storyID}.json`)
+			);
+		});
 
-    let resolvedStories = await axios.all(promises);
-    resolvedStories.forEach(story => {
-      selectTopStories.push(story.data);
-    });
-    return selectTopStories;
-  } catch (error) {
-    throw Error(error);
-  }
+		let resolvedStories = await axios.all(promises);
+		resolvedStories.forEach(story => {
+			selectTopStories.push(story.data);
+		});
+		return selectTopStories;
+	} catch (error) {
+		throw Error(error);
+	}
 };
 
 export const getItem = async itemId => {
-  try {
-    let response = await axios.get(
-      `https://hacker-news.firebaseio.com/v0/item/${itemId}.json`
-    );
-    return response.data;
-  } catch (error) {
-    console.debug(error);
-    throw Error(error);
-  }
+	try {
+		let response = await axios.get(
+			`https://hacker-news.firebaseio.com/v0/item/${itemId}.json`
+		);
+		return response.data;
+	} catch (error) {
+		console.debug(error);
+		throw Error(error);
+	}
 };
 
 export const getAllItems = async itemId => {
-  try {
-    let itemList = [];
-    let story = await getItem(itemId);
+	try {
+		let itemList = [];
+		let story = await getItem(itemId);
 
-    let promises = [];
-    story.kids.forEach(storyID => {
-      promises.push(
-        axios.get(`https://hacker-news.firebaseio.com/v0/item/${storyID}.json`)
-      );
-    });
+		let promises = [];
+		story.kids.forEach(storyID => {
+			promises.push(
+				axios.get(`https://hacker-news.firebaseio.com/v0/item/${storyID}.json`)
+			);
+		});
 
-    let resolvedStories = await axios.all(promises);
-    resolvedStories.forEach(story => {
-      itemList.push(story.data);
-    });
-    return itemList;
-  } catch (error) {
-    throw Error(error);
-  }
+		let resolvedStories = await axios.all(promises);
+		resolvedStories.forEach(story => {
+			itemList.push(story.data);
+		});
+		return itemList;
+	} catch (error) {
+		throw Error(error);
+	}
 };
