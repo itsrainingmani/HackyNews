@@ -1,48 +1,62 @@
 {
-  "name": "hackynews",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "axios": "^0.19.0",
-    "dotenv": "^8.1.0",
-    "react": "^16.9.0",
-    "react-dom": "^16.9.0",
-    "react-html-parser": "^2.0.2",
-    "react-router-dom": "^5.0.1",
-    "react-scripts": "3.1.1",
-    "semantic-ui-css": "^2.4.1",
-    "semantic-ui-react": "^0.87.3"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "lint": "eslint --fix . && echo 'Lint complete.'"
-  },
-  "proxy": "http://localhost:8080",
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
-  "devDependencies": {
-    "@babel/core": "^7.5.5",
-    "@babel/node": "^7.5.5",
-    "@babel/preset-env": "^7.5.5",
-    "concurrently": "^4.1.2",
-    "eslint-config-prettier": "^6.1.0",
-    "eslint-config-react": "^1.1.7",
-    "eslint-plugin-prettier": "^3.1.0",
-    "eslint-plugin-react-hooks": "^1.7.0",
-    "nodemon": "^1.19.1",
-    "prettier": "^1.18.2"
-  }
+	"name": "hackynews",
+	"version": "0.1.0",
+	"private": true,
+	"dependencies": {
+		"axios": "^0.19.0",
+		"dotenv": "^8.1.0",
+		"react": "^16.9.0",
+		"react-dom": "^16.9.0",
+		"react-html-parser": "^2.0.2",
+		"react-router-dom": "^5.0.1",
+		"react-scripts": "3.1.1",
+		"semantic-ui-css": "^2.4.1",
+		"semantic-ui-react": "^0.87.3"
+	},
+	"scripts": {
+		"start": "react-scripts start",
+		"build": "react-scripts build",
+		"test": "react-scripts test",
+		"eject": "react-scripts eject",
+		"lint": "eslint --ext .jsx,.js src/ --fix && echo 'Lint complete.'",
+		"clean": "rm -rf ./build"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/itsrainingmani/HackyNews.git"
+	},
+	"keywords": [
+		"Hacker News",
+		"Reactjs",
+		"clone"
+	],
+	"author": "Manikandan Sundararajan",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/itsrainingmani/HackyNews/issues"
+	},
+	"browserslist": {
+		"production": [
+			">0.2%",
+			"not dead",
+			"not op_mini all"
+		],
+		"development": [
+			"last 1 chrome version",
+			"last 1 firefox version",
+			"last 1 safari version"
+		]
+	},
+	"devDependencies": {
+		"@babel/core": "^7.5.5",
+		"@babel/node": "^7.5.5",
+		"@babel/preset-env": "^7.5.5",
+		"concurrently": "^4.1.2",
+		"eslint-config-prettier": "^6.1.0",
+		"eslint-config-react": "^1.1.7",
+		"eslint-plugin-prettier": "^3.1.0",
+		"eslint-plugin-react-hooks": "^1.7.0",
+		"nodemon": "^1.19.1",
+		"prettier": "^1.18.2"
+	}
 }
