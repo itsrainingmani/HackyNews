@@ -54,7 +54,7 @@ function CommentHeader(props) {
 
 function CommentList(props) {
 	return (
-		<List relaxed selection divided verticalAlign="middle" size="large">
+		<List relaxed divided verticalAlign="middle" size="large">
 			{props.comments.length > 0
 				? props.comments.map(comment => (
 						<List.Item key={comment.id}>
@@ -63,10 +63,7 @@ function CommentList(props) {
 								<List.Header>
 									{comment.deleted === 'true'
 										? 'deleted'
-										: comment.by +
-										  ' | ' +
-										  convUnixTime(comment.time) +
-										  (comment.kids ? ' | expand' : '')}
+										: `${comment.by} | ${convUnixTime(comment.time)}`}
 								</List.Header>
 								{ReactHtmlParser(comment.text)}
 							</List.Content>
