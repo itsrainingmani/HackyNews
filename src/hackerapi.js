@@ -64,6 +64,11 @@ export const getAllItems = async itemId => {
 		let story = await getItem(itemId);
 
 		let promises = [];
+
+		if (!Object.prototype.hasOwnProperty.call(story, 'kids')) {
+			return [];
+		}
+
 		story.kids.forEach(storyID => {
 			promises.push(
 				axios.get(`https://hacker-news.firebaseio.com/v0/item/${storyID}.json`)
@@ -74,6 +79,42 @@ export const getAllItems = async itemId => {
 		resolvedStories.forEach(story => {
 			itemList.push(story.data);
 		});
+		return itemList;
+	} catch (error) {
+		throw Error(error);
+	}
+};
+
+// Async function that receives an itemID and returns an
+// array of all child item data
+export const fullCommentSection = async itemId => {
+	try {
+		let itemList = [];
+		let story = await getItem(itemId);
+		let promises = [];
+
+		if (!Object.prototype.hasOwnProperty.call(story, 'kids')) {
+			return [];
+		}
+
+		let children = story.kids;
+		console.log(children);
+		while (children.length > 0) {
+			let c = children.shift();
+			promises.push(
+				axios.get(`https://hacker-news.firebaseio.com/v0/item/${c}.json`)
+			);
+			let resolvedStories = await axios.all(promises);
+			resolvedStories.forEach(story => {
+				itemList.push(story.data);
+				if (Object.prototype.hasOwnProperty.call(story.data, 'kids')) {
+					story.data.kids.forEach(k => {
+						children.push(k);
+					});
+				}
+			});
+			promises = [];
+		}
 		return itemList;
 	} catch (error) {
 		throw Error(error);

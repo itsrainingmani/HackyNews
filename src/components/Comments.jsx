@@ -16,8 +16,12 @@ export default function CommentSection(props) {
 				console.debug(err);
 			});
 
-		HackerApi.getAllItems(props.itemId).then(data => {
-			console.log(data);
+		// HackerApi.getAllItems(props.itemId).then(data => {
+		// 	console.log(data);
+		// 	setCommentList(data);
+		// });
+
+		HackerApi.fullCommentSection(props.itemId).then(data => {
 			setCommentList(data);
 		});
 	}, [props.itemId]);
