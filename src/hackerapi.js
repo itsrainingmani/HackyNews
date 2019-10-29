@@ -3,6 +3,7 @@ import axios from 'axios';
 // const storyTypes = ['top', 'best', 'new', 'ask', 'show', 'job'];
 const numOfStories = 20;
 
+// Gets all stories for a specified story type
 const getAllStories = async type => {
 	try {
 		let response = await axios.get(
@@ -15,6 +16,7 @@ const getAllStories = async type => {
 	}
 };
 
+// Gets all stories for a given story type and page number
 export const getSelectStories = async (type, pageNum) => {
 	try {
 		let selectTopStories = [];
@@ -54,6 +56,8 @@ export const getItem = async itemId => {
 	}
 };
 
+// Async function that receives an itemID and returns an
+// array of all child item data
 export const getAllItems = async itemId => {
 	try {
 		let itemList = [];

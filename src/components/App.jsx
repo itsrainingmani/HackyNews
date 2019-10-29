@@ -7,6 +7,8 @@ import { Loader } from 'semantic-ui-react';
 const Stories = lazy(() => import('./Stories'));
 const renderLoader = <Loader active inline="centered" />;
 
+// Each Route component has three route props
+// match, location and history.
 export default function App() {
 	return (
 		<Layout>
@@ -21,7 +23,7 @@ export default function App() {
 						path="/best/:page"
 						render={props => (
 							<Stories {...props} type="best" page={props.match.params.page} />
-						)}
+						)} // match object has following properties: params, isExact, path and url
 					/>
 					<Route
 						exact

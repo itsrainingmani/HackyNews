@@ -8,6 +8,8 @@ function Layout(props) {
 
 	const handleItemClick = (_e, { name }) => setActiveItem(name);
 
+	// The useEffect Hook is equivalent to the component LifeCycle methods,
+	// componentDidMount and componentDidUpdate
 	useEffect(() => {
 		if (props.location.pathname.includes('new')) {
 			setActiveItem('new');
