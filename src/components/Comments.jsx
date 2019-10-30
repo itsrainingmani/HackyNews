@@ -61,7 +61,13 @@ function CommentList(props) {
 		<List relaxed divided verticalAlign="middle" size="large">
 			{props.comments.length > 0
 				? props.comments.map(comment => (
-						<List.Item key={comment.id}>
+						<List.Item
+							key={comment.id}
+							style={{
+								marginLeft: comment.depth * 20,
+								backgroundColor: comment.depth % 2 === 0 ? 'white' : 'aliceblue'
+							}}
+						>
 							<List.Icon name="caret up" verticalAlign="top" />
 							<List.Content>
 								<List.Header>
