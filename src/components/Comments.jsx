@@ -16,11 +16,6 @@ export default function CommentSection(props) {
 				console.debug(err);
 			});
 
-		// HackerApi.getAllItems(props.itemId).then(data => {
-		// 	console.log(data);
-		// 	setCommentList(data);
-		// });
-
 		HackerApi.fullCommentSection(props.itemId).then(data => {
 			setCommentList(data);
 		});
@@ -30,7 +25,11 @@ export default function CommentSection(props) {
 		<ErrorBoundary>
 			<React.Fragment>
 				<CommentHeader story={story} />
-				<CommentList comments={commentList} />
+				{commentList.length > 0 ? (
+					<CommentList comments={commentList} />
+				) : (
+					"There's nothing here"
+				)}
 			</React.Fragment>
 		</ErrorBoundary>
 	);
@@ -59,27 +58,25 @@ function CommentHeader(props) {
 function CommentList(props) {
 	return (
 		<List relaxed divided verticalAlign="middle" size="large">
-			{props.comments.length > 0
-				? props.comments.map(comment => (
-						<List.Item
-							key={comment.id}
-							style={{
-								marginLeft: comment.depth * 20,
-								backgroundColor: comment.depth % 2 === 0 ? 'white' : 'aliceblue'
-							}}
-						>
-							<List.Icon name="caret up" verticalAlign="top" />
-							<List.Content>
-								<List.Header>
-									{comment.deleted === 'true'
-										? 'deleted'
-										: `${comment.by} | ${convUnixTime(comment.time)}`}
-								</List.Header>
-								{ReactHtmlParser(comment.text)}
-							</List.Content>
-						</List.Item>
-				  ))
-				: "There's nothing here"}
+			{props.comments.map(comment => (
+				<List.Item
+					key={comment.id}
+					style={{
+						marginLeft: comment.depth * 20,
+						backgroundColor: comment.depth % 2 === 0 ? 'white' : 'aliceblue'
+					}}
+				>
+					<List.Icon name="caret up" verticalAlign="top" />
+					<List.Content>
+						<List.Header>
+							{comment.deleted === 'true'
+								? 'deleted'
+								: `${comment.by} | ${convUnixTime(comment.time)}`}
+						</List.Header>
+						{ReactHtmlParser(comment.text)}
+					</List.Content>
+				</List.Item>
+			))}
 		</List>
 	);
 }
