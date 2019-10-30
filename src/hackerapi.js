@@ -94,26 +94,34 @@ export const fullCommentSection = async itemId => {
 		let promises = [];
 
 		if (!Object.prototype.hasOwnProperty.call(story, 'kids')) {
-			return [];
+			return itemList; // empty
 		}
 
-		let children = story.kids;
-		console.log(children);
+		// Create a list of objects from the initial comment list
+		// and set their depths to 0
+		let children = story.kids.map(s => {
+			return { id: s, depth: 0 };
+		});
+
 		while (children.length > 0) {
-			let c = children.shift();
+			let curNode = children.shift(); // removes and returns the first element in an array
+			let cId = curNode['id'];
+			let cDepth = curNode['depth'];
 			promises.push(
-				axios.get(`https://hacker-news.firebaseio.com/v0/item/${c}.json`)
+				axios.get(`https://hacker-news.firebaseio.com/v0/item/${cId}.json`)
 			);
 			let resolvedStories = await axios.all(promises);
 			resolvedStories.forEach(story => {
-				itemList.push(story.data);
+				itemList.push({ ...story.data, depth: cDepth });
+				let childNodes = [];
 				if (Object.prototype.hasOwnProperty.call(story.data, 'kids')) {
 					story.data.kids.forEach(k => {
-						children.push(k);
+						childNodes.push({ id: k, depth: cDepth + 1 }); // increment the depth of children by 1
 					});
 				}
+				children.unshift(...childNodes);
 			});
-			promises = [];
+			promises = []; // clear out the promises array so that we don't get stuck making infinite requests
 		}
 		return itemList;
 	} catch (error) {
