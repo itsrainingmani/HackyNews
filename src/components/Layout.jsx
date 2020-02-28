@@ -24,7 +24,7 @@ function Layout(props) {
 		<div className="layout">
 			<Menu size="mini">
 				<Menu.Item>
-					<img src={require('../logo.png')} />
+					<img src={require('../logo.png')} alt="logo" />
 				</Menu.Item>
 				<Menu.Item
 					as={Link}
@@ -72,7 +72,7 @@ function Layout(props) {
 			</Menu>
 			<Container>{props.children}</Container>
 			<footer className="footer">
-				Copyright &copy; 2019 Manikandan Sundararajan. All Rights Reserved
+				Copyright &copy; 2020 Manikandan Sundararajan. Made with ❤️ & ☕ in NYC
 			</footer>
 		</div>
 	);
