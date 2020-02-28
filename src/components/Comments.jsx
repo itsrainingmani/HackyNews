@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { convUnixTime, extractHostname } from './StoryUtils';
 import { List, Header } from 'semantic-ui-react';
 import * as HackerApi from '../hackerapi';
-import ErrorBoundary from './ErrorBoundary';
 import ReactHtmlParser from 'react-html-parser';
+import { Loader } from 'semantic-ui-react';
+
+const renderLoader = <Loader active />;
 
 export default function CommentSection(props) {
 	const [story, setStory] = useState({});
@@ -22,16 +24,16 @@ export default function CommentSection(props) {
 	}, [props.itemId]);
 
 	return (
-		<ErrorBoundary>
-			<React.Fragment>
-				<CommentHeader story={story} />
-				{commentList.length > 0 ? (
-					<CommentList comments={commentList} />
-				) : (
-					"There's nothing here"
-				)}
-			</React.Fragment>
-		</ErrorBoundary>
+		<React.Fragment>
+			<CommentHeader story={story} />
+			{commentList.length > 0 ? (
+				<CommentList comments={commentList} />
+			) : (
+				// Using a Loader component instead of showing an
+				// error message
+				renderLoader
+			)}
+		</React.Fragment>
 	);
 }
 
