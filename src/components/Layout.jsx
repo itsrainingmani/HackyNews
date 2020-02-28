@@ -22,7 +22,10 @@ function Layout(props) {
 
 	return (
 		<div className="layout">
-			<Menu>
+			<Menu size="mini">
+				<Menu.Item>
+					<img src={require('../logo.png')} />
+				</Menu.Item>
 				<Menu.Item
 					as={Link}
 					to="/"
