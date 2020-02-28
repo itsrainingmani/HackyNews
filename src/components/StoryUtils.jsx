@@ -141,13 +141,13 @@ export function StoryTable(props) {
 
 export function StoryButton(props) {
 	const { type, page } = props;
+	const linkTo =
+		type !== 'top'
+			? `/${props.type}/${(parseInt(page) || 1) + 1}`
+			: `/${(parseInt(page) || 1) + 1}`;
 	return (
 		<Button>
-			{type !== 'top' ? (
-				<Link to={`/${props.type}/${(parseInt(page) || 1) + 1}`}>More</Link>
-			) : (
-				<Link to={`/${(parseInt(page) || 1) + 1}`}>More</Link>
-			)}
+			<Link to={linkTo}>More</Link>
 		</Button>
 	);
 }
