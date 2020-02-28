@@ -104,7 +104,8 @@ export const fullCommentSection = async itemId => {
 		});
 
 		while (children.length > 0) {
-			let curNode = children.shift(); // removes and returns the first element in an array
+			// removes and returns the first element in an array
+			let curNode = children.shift();
 			let cId = curNode['id'];
 			let cDepth = curNode['depth'];
 			promises.push(
@@ -116,12 +117,15 @@ export const fullCommentSection = async itemId => {
 				let childNodes = [];
 				if (Object.prototype.hasOwnProperty.call(story.data, 'kids')) {
 					story.data.kids.forEach(k => {
-						childNodes.push({ id: k, depth: cDepth + 1 }); // increment the depth of children by 1
+						// increment the depth of children by 1
+						childNodes.push({ id: k, depth: cDepth + 1 });
 					});
 				}
 				children.unshift(...childNodes);
 			});
-			promises = []; // clear out the promises array so that we don't get stuck making infinite requests
+
+			// clear out the promises array so that we don't get stuck making infinite requests
+			promises = [];
 		}
 		return itemList;
 	} catch (error) {
