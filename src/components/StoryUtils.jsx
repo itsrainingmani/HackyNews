@@ -75,7 +75,7 @@ export default function StoryList(props) {
 							{convUnixTime(story.time)}
 							{' with '}
 							<Link to={`/item/${story.id}`}>
-								{+story.descendants + ' comments'}
+								{+(story.descendants ? story.descendants : '') + ' comments'}
 							</Link>
 						</Header>
 					</List.Content>
