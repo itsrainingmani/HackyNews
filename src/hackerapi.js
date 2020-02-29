@@ -3,12 +3,15 @@ import axios from 'axios';
 // const storyTypes = ['top', 'best', 'new', 'ask', 'show', 'job'];
 const numOfStories = 20;
 
+const StoryTypeUrl = type =>
+	`https://hacker-news.firebaseio.com/v0/${type}stories.json`;
+const ItemUrl = itemID =>
+	`https://hacker-news.firebaseio.com/v0/item/${itemID}.json`;
+
 // Gets all stories for a specified story type
 const getAllStories = async type => {
 	try {
-		let response = await axios.get(
-			`https://hacker-news.firebaseio.com/v0/${type}stories.json`
-		);
+		let response = await axios.get(StoryTypeUrl(type));
 		return response.data;
 	} catch (error) {
 		console.debug(error);
@@ -29,9 +32,7 @@ export const getSelectStories = async (type, pageNum) => {
 		);
 		let promises = [];
 		topStoryTranch.forEach(storyID => {
-			promises.push(
-				axios.get(`https://hacker-news.firebaseio.com/v0/item/${storyID}.json`)
-			);
+			promises.push(axios.get(ItemUrl(storyID)));
 		});
 
 		let resolvedStories = await axios.all(promises);
@@ -46,9 +47,7 @@ export const getSelectStories = async (type, pageNum) => {
 
 export const getItem = async itemId => {
 	try {
-		let response = await axios.get(
-			`https://hacker-news.firebaseio.com/v0/item/${itemId}.json`
-		);
+		let response = await axios.get(ItemUrl(itemId));
 		return response.data;
 	} catch (error) {
 		console.debug(error);
@@ -70,9 +69,7 @@ export const getAllItems = async itemId => {
 		}
 
 		story.kids.forEach(storyID => {
-			promises.push(
-				axios.get(`https://hacker-news.firebaseio.com/v0/item/${storyID}.json`)
-			);
+			promises.push(axios.get(ItemUrl(storyID)));
 		});
 
 		let resolvedStories = await axios.all(promises);
@@ -108,9 +105,7 @@ export const fullCommentSection = async itemId => {
 			let curNode = children.shift();
 			let cId = curNode['id'];
 			let cDepth = curNode['depth'];
-			promises.push(
-				axios.get(`https://hacker-news.firebaseio.com/v0/item/${cId}.json`)
-			);
+			promises.push(axios.get(ItemUrl(cId)));
 			let resolvedStories = await axios.all(promises);
 			resolvedStories.forEach(story => {
 				itemList.push({ ...story.data, depth: cDepth });
