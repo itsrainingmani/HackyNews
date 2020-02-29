@@ -18,14 +18,18 @@ export default function CommentSection(props) {
 				console.debug(err);
 			});
 
-		HackerApi.fullCommentSection(props.itemId).then(data => {
-			setCommentList(data);
-		});
+		HackerApi.fullCommentSection(props.itemId)
+			.then(data => {
+				setCommentList(data);
+			})
+			.catch(err => {
+				console.debug(err);
+			});
 	}, [props.itemId]);
 
 	return (
 		<React.Fragment>
-			<CommentHeader story={story} />
+			{story.score ? <CommentHeader story={story} /> : <Loader active />}
 			{commentList.length > 0 ? (
 				<CommentList comments={commentList} />
 			) : (
@@ -65,7 +69,7 @@ function CommentList(props) {
 					key={comment.id}
 					style={{
 						marginLeft: comment.depth * 20,
-						backgroundColor: comment.depth % 2 === 0 ? 'white' : 'aliceblue'
+						backgroundColor: comment.depth % 2 === 0 ? 'white' : 'bisque'
 					}}
 				>
 					<List.Icon name="caret up" verticalAlign="top" />
